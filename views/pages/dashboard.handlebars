@@ -1,0 +1,14 @@
+<h1>Dashboard</h1>
+
+{{#if posts.length}}
+  {{#each posts}}
+    <div class='post'>
+      <h2><a href='/posts/{{this.id}}'>{{this.title}}</a></h2>
+      <p>{{this.summary}}</p>
+      <p>Posted by: {{this.createdBy}}</p>
+    </div>
+  {{/each}}
+  <button><a href='/posts/new'>New Post</a> </button>
+{{else}}
+  <p>No posts yet</p>
+{{/if}}
