@@ -16,20 +16,30 @@ router.get('/', async (req, res, next) => {
 
 // Render the dashboard page
 router.get('/dashboard', async (req, res, next) => {
+    if (!req.session.userId) {
+        res.redirect('/login');
+        return;
+    }
     try {
-        const userPostData = await Post.findAll({
+        const postData = await Post.findAll({
             where: {
-                user_id: req.session.user_id,
+                userId: req.session.userId,
             },
         });
-        const posts = userPostData.map((post) => post.get({ plain: true }));
+        const posts = postData.map((post) => post.get({ plain: true }));
+
         res.render('dashboard', { posts });
     } catch (err) {
         next(err);
     }
 });
 
+// Render the login page
+
 router.get('/login', (req, res) => {
+    if (req.session.userId) {
+        return res.redirect('/dashboard');
+    }
     res.render('login');
 });
 
