@@ -8,9 +8,12 @@ const bcrypt = require('bcrypt');
 
 router.post('/register', async (req, res, next) => {
     try {
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
         const userData = await User.create({
             username: req.body.username,
-            password: req.body.password,
+            password: hashedPassword,
         });
 
         req.session.save(() => {
@@ -32,8 +35,9 @@ router.post('/login', async (req, res, next) => {
             where: {
                 username: req.body.username } }); 
         if (!userData) {
-            res.status(400).json({ message: 'Incorrect username or password, please try again' });
-            return;
+            const error = new Error('Incorrect username or password, please try again');
+            error.status = 400;
+            return next(error);
         }
 
         const validPassword = await bcrypt.compare(
@@ -42,11 +46,14 @@ router.post('/login', async (req, res, next) => {
         );
 
         if (!validPassword) {
-            res.status(400).json({ message: 'Incorrect username or password, please try again' });
-            return;
-        
+            const error = new Error('Incorrect username or password, please try again');
+            error.status = 400;
+            return next(error);
     }
 
+    // If login is successful, save the session
+    req.session.user_id = userData.id;
+    req.session.logged_in = true;
     res.json({ user: userData, message: 'You are now logged in!' });
     } catch (err) {
         next(err);
