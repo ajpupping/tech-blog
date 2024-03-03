@@ -1,14 +1,23 @@
 'use strict';
+const bcrypt = require('bcrypt');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('Users', [{
-      username: 'user1',
-      password: 'password123'
-    }, {
-      username: 'user2',
-      password: 'password456'
-    }], {});
+    const users = [
+      {
+        username: 'user1',
+        password: 'password123'
+      },
+      {
+        username: 'user2',
+        password: 'password456'
+      }
+    ];
+    // Hash passwords 
+    for (let user of users) {
+      user.password = await bcrypt.hash(user.password, 10);
+    }
+    await queryInterface.bulkInsert('Users', users, {});
 
     await queryInterface.bulkInsert('Posts', [{
       title: 'First Post',

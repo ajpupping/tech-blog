@@ -3,11 +3,7 @@
 </header>
 
 <main>
-    {{#if posts.length}}
-        {{#each posts}}
-            {{> _post this}}
-        {{/each}}
-    {{else}}
-        <p>No posts yet</p>
-    {{/if}}
+    <div id="post-container"></div>
 </main>
+
+<script src="/js/homepage.js"></script>

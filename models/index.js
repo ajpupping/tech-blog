@@ -1,8 +1,8 @@
 const sequelize = require('../config/connection');
 const Sequelize = require('sequelize');
 
-const User = require('./User')(sequelize, Sequelize.DataTypes);
-const Post = require('./Post')(sequelize, Sequelize.DataTypes);
+const User = require('./User')
+const Post = require('./Post')
 
 // Associations
 User.hasMany(Post, {

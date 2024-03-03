@@ -1,36 +1,70 @@
+'use strict';
+
 const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection');
 
-module.exports = (sequelize) => {
-    class User extends Model {}
+class User extends Model {}
 
-    User.init(
-        {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
+User.init({
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+    }, 
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    }, 
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [8],
         },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: [8], 
-            },
-        },
-
     },
-    {
-        sequelize, 
-        modelName: 'User', 
-        timestamps: true,
-        freezeTableName: true,
-        underscored: true,
-    });
+}, {
+    sequelize,
+    modelName: 'User',
+    tableName: 'Users',
+});
 
-    return User;
-};
+module.exports = User;
+
+// const { Model, DataTypes } = require('sequelize');
+
+// module.exports = (sequelize) => {
+//     class User extends Model {}
+
+//     User.init(
+//         {
+//         id: {
+//             type: DataTypes.INTEGER,
+//             allowNull: false,
+//             primaryKey: true,
+//             autoIncrement: true,
+//         },
+//         username: {
+//             type: DataTypes.STRING,
+//             allowNull: false,
+//         },
+//         password: {
+//             type: DataTypes.STRING,
+//             allowNull: false,
+//             validate: {
+//                 len: [8], 
+//             },
+//         },
+
+//     },
+//     {
+//         sequelize, 
+//         modelName: 'User', 
+//         tableName: 'Users',
+//         timestamps: true,
+//         freezeTableName: true,
+//         underscored: true,
+//     });
+
+//     return Users;
+// };
