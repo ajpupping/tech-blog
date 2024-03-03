@@ -9,3 +9,5 @@ function errorHandler(err, req, res, next) {
         message: err.message || 'An unexpected error occurred on the server.',
     });
 }
+
+module.exports = errorHandler;
