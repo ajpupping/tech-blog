@@ -1,34 +1,44 @@
+const path = require('path');
 const express = require('express');
+const session = require('express-session');
 const handlebars = require('express-handlebars');
+const routes = require('./controllers');
+
+const sequelize = require('./config/connection');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
+const PORT = process.env.PORT || 3001;
+const secret = process.env.SESSION_SECRET;
+
+app.use(session({
+secret: secret,
+    cookie: { 
+        maxAge: 1000 * 60 * 60 * 2, 
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict' 
+    }, 
+    resave: false,
+    saveUninitialized: true,
+    store: new SequelizeStore({
+        db: sequelize
+    })
+}));
 
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-app.get('/', async (req, res, next) => {
-    try {
-        const postData = await postMessage.findAll();
-        const posts = postData.map((post) => post.get({ plain: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-        res.render('home', { posts });
-    } catch (err) {
-        next(err);
-    }
-});
+app.use(routes);
 
-app.get('/dashboard', async (req, res, next) => {
-    try {
-        const userPostData = await Post.findAll({
-            where: {
-                user_id: req.session.user_id,
-            },
-        });
-        const posts = userPostData.map((post) => post.get({ plain: true }));
-        res.render('dashboard', { posts });
-        } catch (err) {
-            next(err);
-        }
+sequelize.sync({ force: false }).then(() => {
+    app.listen(PORT, () => {
+        console.log('Server is running on port 3001');
+    });
 });
 
 const errorHandler = require('./middleware/errorHandler');
