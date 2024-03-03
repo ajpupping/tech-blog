@@ -1,14 +1,15 @@
-<h1>Welcome!</h1>
+<header>
+    <h1>Welcome</h1>
+</header>
 
-{{#each posts}}
-    <div class="post"> 
-        <h2><a href="/posts/{{this.id}}{{this.title}}"></a></h2>
-        <p>{{this.summar}}</p>
-        <p>Posted by: {{this.createdBy}}</p>
-    </div>
+<main>
+    {{#if posts.length}}
+    {{#each posts}}
+        {{> _post this}}
+    {{/each}}
 
 {{else}}
     <p>No posts yet</p>
     
 {{/each}}
-```
+</main>

@@ -1,8 +1,10 @@
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
-const handlebars = require('express-handlebars');
 const routes = require('./controllers');
+const { engine } = require('express-handlebars');
+const helpers = require('./utils/helpers');
+
 
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -26,7 +28,11 @@ secret: secret,
     })
 }));
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
+app.engine('handlebars', engine({
+    defaultLayout: 'main',
+    partialsDir: path.join(__dirname, 'views/partials'),
+    helpers: helpers
+    }));
 app.set('view engine', 'handlebars');
 
 app.use(express.json());
