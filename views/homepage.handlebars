@@ -4,12 +4,10 @@
 
 <main>
     {{#if posts.length}}
-    {{#each posts}}
-        {{> _post this}}
-    {{/each}}
-
-{{else}}
-    <p>No posts yet</p>
-    
-{{/each}}
+        {{#each posts}}
+            {{> _post this}}
+        {{/each}}
+    {{else}}
+        <p>No posts yet</p>
+    {{/if}}
 </main>

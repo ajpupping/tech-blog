@@ -8,7 +8,7 @@ router.get('/', async (req, res, next) => {
         const postData = await Post.findAll();
         const posts = postData.map((post) => post.get({ plain: true }));
 
-        res.render('home', { posts });
+        res.render('homepage', { posts });
     } catch (err) {
         next(err);
     }
@@ -43,5 +43,12 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
+
+// Render the sign up page
+router.get('/register', (req, res) => {
+    res.render('register'); 
+});
+
+module.exports = router;
 
 module.exports = router;
