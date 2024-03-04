@@ -1,0 +1,118 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0c8f2;
+}
+
+header {
+    background-color: #b493e9;
+    color: #000;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 10px; 
+    margin: 10px;
+    list-style-type: none; 
+    color: #fff;
+}
+
+.logout-button {
+    margin-left: auto; 
+    padding: 10px;
+}
+
+.logout-button a {
+    color: #ffffff; 
+    background-color: #3a2351; 
+    padding: 5px 10px;
+    border-radius: 5px; 
+    text-decoration: none; 
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+main {
+    padding: 20px;
+}
+
+article.post {
+    background-color: #ffffff; 
+    padding: 20px;
+    margin-bottom: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    border: 1px solid #064c72; 
+}
+
+
+section {
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #3a2351;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #17d5c8;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #523074;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
