@@ -56,9 +56,28 @@ router.get('/posts', async (req, res, next) => {
     }
 });
 
+// Get update post page
+router.get('/posts/update/:id', authenticateUser, async (req, res, next) => {
+    try {
+        const post = await Post.findByPk(req.params.id);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        res.render('updatePost', { post: post.get({ plain: true }) });
+    } catch (error) {
+        next(err);   
+    }
+});
+
+
+
 // Get new post page
-router.get('/posts/new', authenticateUser, (req, res) => {
-    res.render('newPost');
+router.get('/posts/new', authenticateUser, (req, res, next) => {
+    try {
+        res.render('newPost');
+    } catch (error) {
+        next(err);
+    }
 });
 
 module.exports = router;

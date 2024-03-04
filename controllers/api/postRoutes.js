@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Post } = require('../../models');
+const { authenticateUser } = require('../../utils/auth');
 
 // Get all posts
 
@@ -48,24 +49,30 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-// Update a post
+// Get post for update
 
-router.put('/:id', async (req, res, next) => {
+router.get('/update/:id', authenticateUser, async (req, res) => {
     try {
-        const postData = await Post.update(req.body, {
-            where: {
-                id: req.params.id,
-            },
-        });
+        const postId = req.params.id;
+        const post = await Post.findByPk(postId);
 
-        if (!postData[0]) {
-            res.status(404).json({ message: 'Post not found' });
-            return;
+        // Check if the post exists
+        if (!post) {
+            return res.status(404).send('Post not found');
         }
 
-        res.status(200).json(postData);
-    } catch (err) {
-        next(err);
+        // Check if the user is the owner of the post
+        if (post.userId !== req.session.userId) {
+            return res.status(403).send('Unauthorized to edit this post');
+        }
+
+        // Render the update post page with the post object
+        res.render('updatePost', {
+            post: post.get({ plain: true }) 
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Server error');
     }
 });
 
@@ -73,18 +80,22 @@ router.put('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
     try {
-        const postData = await Post.destroy({
+        const postId = req.params.id;
+        const post = await Post.findByPk(postId);
+
+        if(!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        if(post.userId !== req.session.userId) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        } 
+        await Post.destroy({
             where: {
-                id: req.params.id,
+                id: postId,
             },
         });
 
-        if (!postData) {
-            res.status(404).json({ message: 'Post not found' });
-            return;
-        }
-
-        res.status(200).json(postData);
+        res.json({message: 'Post deleted'});
     } catch (err) {
         next(err);
     }

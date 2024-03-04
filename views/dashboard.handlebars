@@ -5,12 +5,20 @@
 <main>
     <section>
         <h2>Your Posts</h2>
-        <article class="post" id="user-post-container"></article>
+        <div id="user-post-container">
+            {{#each posts}}
+            <article class="post" data-id="{{this.id}}"></article>
+                <h3>{{this.title}}</h3>
+                <p>{{this.content}}</p>
+                <button class="delete-btn" data-id="{{this.id}}">Delete</button>
+                <button class="update-btn" data-id="{{this.id}}">Update</button>
+            {{/each}}
+        </div>
+        
     </section>
     
     <section>
         <button><a href="/posts/new" class="btn">New Post</a></button>
-        
     </section>
 </main>
 
