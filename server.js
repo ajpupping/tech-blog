@@ -15,17 +15,14 @@ const secret = process.env.SESSION_SECRET;
 
 app.use(session({
 secret: secret,
-    cookie: { 
-        maxAge: 1000 * 60 * 60 * 2, 
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict' 
-    }, 
-    resave: false,
-    saveUninitialized: true,
-    store: new SequelizeStore({
-        db: sequelize
-    })
+store: new SequelizeStore({
+    db: sequelize
+}),
+resave: false,
+saveUninitialized: true, 
+cookie: {
+    maxAge: 30 * 60 * 1000
+}
 }));
 
 app.engine('handlebars', engine({

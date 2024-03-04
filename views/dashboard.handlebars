@@ -5,13 +5,7 @@
 <main>
     <section>
         <h2>Your Posts</h2>
-        {{#if posts.length}}
-            {{#each posts}}
-                {{> _post this}}
-            {{/each}}
-        {{else}}
-            <p>You haven't posted anything yet.</p>
-        {{/if}}
+        <div id="user-post-container"></div>
     </section>
     
     <section>
@@ -21,3 +15,5 @@
         </form>
     </section>
 </main>
+
+<script src="/js/dashboard.js"></script>

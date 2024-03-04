@@ -32,31 +32,32 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
     try {
         const userData = await User.findOne({
-            where: {
-                username: req.body.username } }); 
+            where: { username: req.body.username }
+        });
+
         if (!userData) {
-            const error = new Error('Incorrect username or password, please try again');
-            error.status = 400;
-            return next(error);
+            return res.status(400).json({message: 'Incorrect username or password'});
         }
+        
+        const validPassword = await bcrypt.compare(req.body.password, userData.password);
 
-        const validPassword = await bcrypt.compare(
-            req.body.password, 
-            userData.password
-        );
+        if (validPassword) {
+            req.session.userId = userData.id;
+            req.session.logged_in = true;
 
-    // If login is successful, save the session
-    if (validPassword) {
-        req.session.userId = userData.id;
-        req.session.logged_in = true;
-        console.log(req.session);
-        res.redirect('/');
-    } else {
-        res.status(400).json({ message: 'Incorrect username or password, please try again' });
+            req.session.save(err => {
+                if (err) {
+                    next(err);
+                } else {
+                    res.redirect('/');
+                }
+            });
+        } else {
+            res.status(400).json({message: 'Incorrect username or password'})
+        }
+    } catch (err) {
+        next(err);
     }
-} catch (err) {
-    next(err);
-} 
 });
 
 // Logout

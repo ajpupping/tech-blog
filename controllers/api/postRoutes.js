@@ -14,6 +14,22 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+// Get all posts by session user
+router.get('/userPosts', async (req, res, next) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: 'Not logged in' });
+    }
+
+    try {
+        const userPosts = await Post.findAll({
+            where: { userId: req.session.userId }
+        });
+        res.json(userPosts);
+    } catch (err) {
+        next(err);
+    }
+});
+
 // Create a new post
 
 router.post('/', async (req, res, next) => {
