@@ -38,7 +38,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 app.use(routes);
 
@@ -48,5 +48,5 @@ sequelize.sync({ force: false }).then(() => {
     });
 });
 
-const errorHandler = require('./middleware/errorHandler');
+const errorHandler = require('./utils/errorHandler');
 app.use(errorHandler);

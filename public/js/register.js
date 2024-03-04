@@ -1,11 +1,11 @@
-const loginFormHandler = async (event) => {
+const registerFormHandler = async (event) => {
     event.preventDefault();
 
-    const username = document.getElementById('username-login').value.trim();
-    const password = document.getElementById('password-login').value.trim();
+    const username = document.getElementById('username-register').value.trim();
+    const password = document.getElementById('password-register').value.trim();
 
     if (username && password) {
-        const response = await fetch('/api/users/login', {
+        const response = await fetch('/api/users', {
             method: 'POST',
             body: JSON.stringify({ username, password }),
             headers: { 'Content-Type': 'application/json' },
@@ -14,7 +14,7 @@ const loginFormHandler = async (event) => {
         if (response.ok) {
             document.location.replace('/dashboard');
         } else {
-            alert('Failed to log in');
+            alert('Failed to sign up');
         }
     }
 };

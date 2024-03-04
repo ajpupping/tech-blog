@@ -2,6 +2,18 @@ const express = require('express');
 const router = express.Router();
 const { Post } = require('../../models');
 
+// Get all posts
+
+router.get('/', async (req, res, next) => {
+    try {
+        const postData = await Post.findAll();
+
+        res.status(200).json(postData);
+    } catch (err) {
+        next(err);
+    }
+});
+
 // Create a new post
 
 router.post('/', async (req, res, next) => {

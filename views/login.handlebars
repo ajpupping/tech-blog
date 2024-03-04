@@ -5,12 +5,12 @@
     <main>
         <form id="loginForm" action="/api/users/login" method="POST">
             <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="username-login">Username:</label>
+                <input type="text" id="username-login" name="username" autocomplete="username" required>
             </div>
             <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <label for="password-login">Password:</label>
+                <input type="password" id="password-login" name="password" autocomplete="current-password" required>
             </div>
             <button type="submit">Login</button>
         </form>

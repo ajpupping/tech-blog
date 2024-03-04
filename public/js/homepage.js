@@ -1,6 +1,7 @@
 // fetch posts and display them on the homepage
 
 document.addEventListener('DOMContentLoaded', (event) => {
+    event.preventDefault();
     fetch('/api/posts')
     .then(response => response.json())
     .then(posts => {

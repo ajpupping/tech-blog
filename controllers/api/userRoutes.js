@@ -20,7 +20,7 @@ router.post('/register', async (req, res, next) => {
             req.session.userId = userData.id;
             req.session.logged_in = true;
 
-            res.status(200).json(userData);
+            res.redirect('/');
         });
     } catch (err) {
         next(err);
@@ -45,19 +45,18 @@ router.post('/login', async (req, res, next) => {
             userData.password
         );
 
-        if (!validPassword) {
-            const error = new Error('Incorrect username or password, please try again');
-            error.status = 400;
-            return next(error);
-    }
-
     // If login is successful, save the session
-    req.session.userId = userData.id;
-    req.session.logged_in = true;
-    res.json({ user: userData, message: 'You are now logged in!' });
-    } catch (err) {
-        next(err);
+    if (validPassword) {
+        req.session.userId = userData.id;
+        req.session.logged_in = true;
+        console.log(req.session);
+        res.redirect('/');
+    } else {
+        res.status(400).json({ message: 'Incorrect username or password, please try again' });
     }
+} catch (err) {
+    next(err);
+} 
 });
 
 // Logout
@@ -67,12 +66,10 @@ router.post('/logout', (req, res, next) => {
         req.session.destroy((err) => {
             if (err) {
                 next(err);
-            } else {
-                res.status(204).end();
-            }
+            } res.redirect('/login');
         });
     } else {
-    res.status(400).json({ message: 'Not logged in' });
+        res.status(400).send('Not logged in'); 
     }
 });
 
