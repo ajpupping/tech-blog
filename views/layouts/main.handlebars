@@ -11,23 +11,23 @@
         <h1>Tech Blog</h1>
         <nav>
             <ul>
-                <li id="home" ><a href="/">Home</a></li>
-                <li id="dashboard"><a href="/dashboard">Dashboard</a></li>
-                <li id="login"><a href="/login">Login</a></li>
-                <li id="register"><a href="/register">Register</a></li>
-                <li class="logout-button" id="logout"><form action="/api/users/logout" method="POST">
-                    <button type="submit">Logout</button>
-</form></li>
+                <li id="home" ><button><a href="/">Home</a></button></li>
+                <li id="dashboard"><button><a href="/dashboard">Dashboard</a></button></li>
+                <li id="login"><button><a href="/login">Login</a></button></li>
+                <li id="register"><button><a href="/register">Register</a></button></li>
+                <li id="logout">
+                    <form action="/api/users/logout" method="POST">
+                        <button class="btn" type="submit">Logout</button>
+                    </form>
+                </li>
             </ul>
-</nav>
+        </nav>
 
     </header>
 
     {{{body}}}
 
-    <footer>
-        <p>2024 AJP</p>
-    </footer>
-    
+<script src="/js/logout.js"></script>
+
 </body>
 </html>
