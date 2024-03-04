@@ -59,22 +59,13 @@ router.get('/update/:id', authenticateUser, async (req, res) => {
         // Check if the post exists
         if (!post) {
             return res.status(404).send('Post not found');
+        } else {
+            res.render('updatePost', { post: post.get({ plain: true }) });
         }
-
-        // Check if the user is the owner of the post
-        if (post.userId !== req.session.userId) {
-            return res.status(403).send('Unauthorized to edit this post');
-        }
-
-        // Render the update post page with the post object
-        res.render('updatePost', {
-            post: post.get({ plain: true }) 
-        });
     } catch (error) {
-        console.error('Error:', error);
         res.status(500).send('Server error');
-    }
-});
+        }
+    });
 
 // Delete a post
 
