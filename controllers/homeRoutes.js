@@ -56,4 +56,9 @@ router.get('/posts', async (req, res, next) => {
     }
 });
 
+// Get new post page
+router.get('/posts/new', authenticateUser, (req, res) => {
+    res.render('newPost');
+});
+
 module.exports = router;

@@ -34,13 +34,15 @@ router.get('/userPosts', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
+        if (!req.session.userId) {
+            return res.status(401).json({ message: 'Not logged in' });
+        }
         const postData = await Post.create({
-            title: req.body.title,
-            content: req.body.content,
-            user_id: req.session.userId,
+            ...req.body,
+            userId: req.session.userId,
         });
 
-        res.status(200).json(postData);
+        res.redirect('/dashboard');
     } catch (err) {
         next(err);
     }

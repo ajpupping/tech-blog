@@ -67,7 +67,8 @@ router.post('/logout', (req, res, next) => {
         req.session.destroy((err) => {
             if (err) {
                 next(err);
-            } res.redirect('/login');
+            } 
+            res.redirect('/login');
         });
     } else {
         res.status(400).send('Not logged in'); 

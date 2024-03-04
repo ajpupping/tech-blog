@@ -15,7 +15,9 @@
                 <li id="dashboard"><a href="/dashboard">Dashboard</a></li>
                 <li id="login"><a href="/login">Login</a></li>
                 <li id="register"><a href="/register">Register</a></li>
-                <li id="logout"><a href="/logout">Logout</a></li>
+                <li id="logout"><form action="/api/users/logout" method="POST">
+                    <button type="submit">Logout</button>
+</form></li>
             </ul>
 </nav>
 
