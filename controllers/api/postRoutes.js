@@ -67,6 +67,31 @@ router.get('/update/:id', authenticateUser, async (req, res) => {
         }
     });
 
+// Update a post
+
+router.put('/:id', authenticateUser, async (req, res, next) => {
+    try {
+        const postId = req.params.id;
+        const post = await Post.findByPk(postId);
+
+        if(!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        if(post.userId !== req.session.userId) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        } 
+        await Post.update(req.body, {
+            where: {
+                id: postId,
+            },
+        });
+
+        res.json({message: 'Post updated'});
+    } catch (err) {
+        next(err);
+    }
+});
+
 // Delete a post
 
 router.delete('/:id', async (req, res, next) => {

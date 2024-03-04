@@ -2,8 +2,7 @@ document.getElementById('updatePostForm').addEventListener('submit', function(ev
     event.preventDefault();
 
     const form = event.target;
-    // get the post id from the form action
-    const postId = form.action.split('/').pop(); 
+    const postId = form.getAttribute('data-post-id'); 
     const formData = new FormData(form);
     const jsonData = Object.fromEntries(formData.entries());
 
@@ -14,13 +13,24 @@ document.getElementById('updatePostForm').addEventListener('submit', function(ev
         },
         body: JSON.stringify(jsonData),
     })
-    .then(response => response.json())
+    .then(response => {
+        // Check if the response is successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        } else if (!response.headers.get('Content-Type').includes('application/json')) {
+            // If the response isn't JSON, throw an error or handle accordingly
+            throw new Error('Received non-JSON response from server.');
+        } else {
+            // Safely attempt to parse the JSON
+            return response.json();
+        }
+    })
     .then(data => {
         console.log('Success:', data);
-        // redirect to dashboard
-        window.location.href = '/dashboard'; 
+        window.location.href = '/dashboard';
     })
     .catch((error) => {
+        // Handle any errors that occurred during fetch or JSON parsing
         console.error('Error:', error);
     });
 });
